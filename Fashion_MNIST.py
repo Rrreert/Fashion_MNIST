@@ -1,4 +1,3 @@
-import cv2
 import numpy as np
 import pandas as pd
 import streamlit as st
@@ -22,13 +21,11 @@ st.line_chart(Indicator_mnist[["loss", "val_loss"]])
 uploaded_file = st.file_uploader("Upload a picture")
 
 if uploaded_file is not None:
-    # Convert the incoming file to Opencv format
-    file_bytes = np.asarray(bytearray(uploaded_file.read()), dtype=np.uint8)
-    opencv_image = cv2.imdecode(file_bytes, 1)
     # show image
-    st.image(opencv_image, channels="BGR")
+    st.image(uploaded_file, channels="BGR")
     scaler = StandardScaler()
-    cv2.imwrite('test.jpg', opencv_image)
+    I = Image.open(uploaded_file)
+    I.save('test.jpg')
     im = Image.open('test.jpg')
     im = im.resize((28, 28), Image.ANTIALIAS)
     L = im.convert('L')
